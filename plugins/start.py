@@ -33,7 +33,6 @@ await bot.send_message(
         reply_markup=reply_markup
     )
 
-@pyrogram.Client.on_callback_query()
 async def start_back(bot, update):
 TRChatBase(update.from_user.id, update.text, "start")
 ikeyboard = [pyrogram.InlineKeyboardButton("📚 Commands", callback_data="commands"),
