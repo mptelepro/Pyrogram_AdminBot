@@ -21,9 +21,8 @@ from start import start_back
 
 @pyrogram.Client.on_callback_query()
 async def commands(bot, update):
-inlinekeyboard = [pyrogram.InlineKeyboardButton("🕵️ Private Commands", url="t.me/keralasbots"),
- pyrogram.InlineKeyboardButton("👷 Admin Commands", url="t.me/keralasbots")]
-inlinekeyboard.append(pyrogram.InlineKeyboardButton("🔙 Back", callback_data="start_back"))
+inlinekeyboard = [pyrogram.InlineKeyboardButton(text="🕵️ Private Commands", url="t.me/keralasbots"), pyrogram.InlineKeyboardButton(text="👷 Admin Commands", url="t.me/keralasbots")]
+inlinekeyboard.append(pyrogram.InlineKeyboardButton(text="🔙 Back", callback_data="start_back"))
 replycmarkup = pyrogram.InlineKeyboardMarkup(inlinekeyboard)
 await bot.send_message(
         chat_id=update.chat.id,
