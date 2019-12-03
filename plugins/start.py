@@ -21,8 +21,7 @@ from commands import commands
 @pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
 async def start(bot, update):
 TRChatBase(update.from_user.id, update.text, "/start")
-inline_keyboard = [pyrogram.InlineKeyboardButton("📚 Commands", callback_data="commands"),
- pyrogram.InlineKeyboardButton("ℹ️ Info", url="https://t.me/keralasbots")]
+inline_keyboard = [pyrogram.InlineKeyboardButton(text="📚 Commands", callback_data="commands"), pyrogram.InlineKeyboardButton(text="ℹ️ Info", url="https://t.me/keralasbots")]
 reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
 await bot.send_message(
         chat_id=update.chat.id,
@@ -35,8 +34,7 @@ await bot.send_message(
 
 async def start_back(bot, update):
 TRChatBase(update.from_user.id, update.text, "start")
-ikeyboard = [pyrogram.InlineKeyboardButton("📚 Commands", callback_data="commands"),
- pyrogram.InlineKeyboardButton("ℹ️ Info", url="https://t.me/keralasbots")]
+ikeyboard = [pyrogram.InlineKeyboardButton(text="📚 Commands", callback_data="commands"), pyrogram.InlineKeyboardButton(text="ℹ️ Info", url="https://t.me/keralasbots")]
 replymarkup = pyrogram.InlineKeyboardMarkup(ikeyboard)
 await bot.send_message(
         chat_id=update.chat.id,
