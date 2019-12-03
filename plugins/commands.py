@@ -15,20 +15,37 @@ from config import Config
 from translation import Translation
 
 import pyrogram
+from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
 from start import start_back
 
 
 @pyrogram.Client.on_callback_query()
 async def commands(bot, update):
-inlinekeyboard = [pyrogram.InlineKeyboardButton(text="🕵️ Private Commands", url="t.me/keralasbots"), pyrogram.InlineKeyboardButton(text="👷 Admin Commands", url="t.me/keralasbots")]
-inlinekeyboard.append(pyrogram.InlineKeyboardButton(text="🔙 Back", callback_data="start_back"))
-replycmarkup = pyrogram.InlineKeyboardMarkup(inlinekeyboard)
 await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.COMMAND,
         parse_mode="html",
         disable_web_page_preview=True,
         reply_to_message_id=update.message_id,
-        reply_markup=replycmarkup
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [  # First row
+                    InlineKeyboardButton(  # Generates a callback query when pressed
+                        "🕵️ Private Commands",
+                        url="https://t.me/keralasbots"  # Note how callback_data must be bytes
+                    ),
+                    InlineKeyboardButton(  # Opens a web URL
+                        "👷 Admin Commands",
+                        url="https://docs.pyrogram.org"
+                    ),
+                ],
+                [  # Second row
+                    InlineKeyboardButton(  # Opens the inline interface
+                        "🔙 Back",
+                        callback_data=b"start_back"
+                    )
+                ]
+            ]
+        )
     )
