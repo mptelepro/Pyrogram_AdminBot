@@ -1,4 +1,4 @@
 git+git://github.com/google/chatbase-python.git
-https://github.com/pyrogram/pyrogram/develop.git
+https://github.com/pyrogram/pyrogram/archive/develop.zip
 requests
 tgcrypto
