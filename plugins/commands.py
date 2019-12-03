@@ -20,7 +20,7 @@ from database import TRChatBase
 from start import start_back
 
 
-@pyrogram.Client.on_callback_query()
+@Client.on_callback_query(dynamic_data(b"commands"))
 async def commands(bot, update):
 await bot.send_message(
         chat_id=update.chat.id,
