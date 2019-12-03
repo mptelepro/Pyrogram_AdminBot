@@ -14,11 +14,10 @@ import sqlite3
 from config import Config
 from translation import Translation
 
-import pyrogram
-from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import Client,Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
 
-@Client.on_message(pyrogram.Filters.command(["start"]))
+@Client.on_message(Filters.command(["start"]))
 def start(bot, update):
 bot.send_message(
         chat_id=update.chat.id,
