@@ -17,14 +17,11 @@ from translation import Translation
 import pyrogram
 from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
-from commands import commands
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
-async def start(bot, update):
+@Client.on_message(pyrogram.Filters.command(["start"]))
+def start(bot, update):
 TRChatBase(update.from_user.id, update.text, "/start")
-inline_keyboard = [pyrogram.InlineKeyboardButton(text="📚 Commands", callback_data="commands"), pyrogram.InlineKeyboardButton(text="ℹ️ Info", url="https://t.me/keralasbots")]
-reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
-await bot.send_message(
+bot.send_message(
         chat_id=update.chat.id,
         text=Translation.START,
         parse_mode="html",
@@ -46,12 +43,10 @@ await bot.send_message(
         )
     )
 
-@pyrogram.Client.on_callback_query()
-async def start_back(bot, update):
-TRChatBase(update.from_user.id, update.text, "start")
-ikeyboard = [pyrogram.InlineKeyboardButton(text="📚 Commands", callback_data="commands"), pyrogram.InlineKeyboardButton(text="ℹ️ Info", url="https://t.me/keralasbots")]
-replymarkup = pyrogram.InlineKeyboardMarkup(ikeyboard)
-await bot.send_message(
+@Client.on_callback_query(dynamic_data(b"start")
+def start_back(bot, update):
+TRChatBase(update.from_user.id, update.text, "/start")
+bot.send_message(
         chat_id=update.chat.id,
         text=Translation.START,
         parse_mode="html",
@@ -72,3 +67,34 @@ await bot.send_message(
             ]
         )
     )
+
+@Client.on_callback_query(dynamic_data(b"commands"))
+def commands(bot, update):
+bot.send_message(
+        chat_id=update.chat.id,
+        text=Translation.COMMAND,
+        parse_mode="html",
+        disable_web_page_preview=True,
+        reply_to_message_id=update.message_id,
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [  # First row
+                    InlineKeyboardButton(  # Generates a callback query when pressed
+                        "🕵️ Private Commands",
+                        url="https://t.me/keralasbots"  # Note how callback_data must be bytes
+                    ),
+                    InlineKeyboardButton(  # Opens a web URL
+                        "👷 Admin Commands",
+                        url="https://docs.pyrogram.org"
+                    ),
+                ],
+                [  # Second row
+                    InlineKeyboardButton(  # Opens the inline interface
+                        "🔙 Back",
+                        callback_data=b"start"
+                    )
+                ]
+            ]
+        )
+    )
+
