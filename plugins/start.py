@@ -15,6 +15,7 @@ from config import Config
 from translation import Translation
 
 import pyrogram
+from pyrogram import ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
 from commands import commands
 
@@ -29,9 +30,23 @@ await bot.send_message(
         parse_mode="html",
         disable_web_page_preview=True,
         reply_to_message_id=update.message_id,
-        reply_markup=reply_markup
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [  # First row
+                    InlineKeyboardButton(  # Generates a callback query when pressed
+                        "📚 Commands",
+                        callback_data=b"commands"  # Note how callback_data must be bytes
+                    ),
+                    InlineKeyboardButton(  # Opens a web URL
+                        "ℹ️ Info",
+                        url="https://t.me/keralasbots"
+                    )
+                ]
+            ]
+        )
     )
 
+@pyrogram.Client.on_callback_query()
 async def start_back(bot, update):
 TRChatBase(update.from_user.id, update.text, "start")
 ikeyboard = [pyrogram.InlineKeyboardButton(text="📚 Commands", callback_data="commands"), pyrogram.InlineKeyboardButton(text="ℹ️ Info", url="https://t.me/keralasbots")]
@@ -42,5 +57,18 @@ await bot.send_message(
         parse_mode="html",
         disable_web_page_preview=True,
         reply_to_message_id=update.message_id,
-        reply_markup=replymarkup
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [  # First row
+                    InlineKeyboardButton(  # Generates a callback query when pressed
+                        "📚 Commands",
+                        callback_data=b"commands"  # Note how callback_data must be bytes
+                    ),
+                    InlineKeyboardButton(  # Opens a web URL
+                        "ℹ️ Info",
+                        url="https://t.me/keralasbots"
+                    )
+                ]
+            ]
+        )
     )
