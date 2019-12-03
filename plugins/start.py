@@ -20,7 +20,6 @@ from database import TRChatBase
 
 @Client.on_message(pyrogram.Filters.command(["start"]))
 def start(bot, update):
-TRChatBase(update.from_user.id, update.text, "/start")
 bot.send_message(
         chat_id=update.chat.id,
         text=Translation.START,
@@ -45,7 +44,6 @@ bot.send_message(
 
 @Client.on_callback_query(dynamic_data(b"start")
 def start_back(bot, update):
-TRChatBase(update.from_user.id, update.text, "/start")
 bot.send_message(
         chat_id=update.chat.id,
         text=Translation.START,
