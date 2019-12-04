@@ -14,7 +14,8 @@ import sqlite3
 from config import Config
 from translation import Translation
 
-import pyrogramlogging.getLogger("pyrogram").setLevel(logging.WARNING)
+import pyrogram
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from database import TRChatBase
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
