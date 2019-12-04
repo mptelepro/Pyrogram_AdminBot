@@ -14,25 +14,25 @@ import sqlite3
 from config import Config
 from translation import Translation
 
-from pyrogram import Client,Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+import pyrogramlogging.getLogger("pyrogram").setLevel(logging.WARNING)
 from database import TRChatBase
 
-@Client.on_message(Filters.command(["start"]))
-def start(bot, update):
-bot.send_message(
+@pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
+async def start(bot, update):
+    # logger.info(update)
+    TRChatBase(update.from_user.id, update.text, "/start")
+    await bot.send_message(
         chat_id=update.chat.id,
-        text=Translation.START,
-        parse_mode="html",
-        disable_web_page_preview=True,
-        reply_to_message_id=update.message_id,
-        reply_markup=InlineKeyboardMarkup(
+        text=Translation.START_TEXT,
+        reply_to_message_id=update.message_id
+        reply_markup=pyrogram.InlineKeyboardMarkup(
             [
                 [  # First row
-                    InlineKeyboardButton(  # Generates a callback query when pressed
+                    pyrogram.InlineKeyboardButton(  # Generates a callback query when pressed
                         "📚 Commands",
                         callback_data=b"commands"  # Note how callback_data must be bytes
                     ),
-                    InlineKeyboardButton(  # Opens a web URL
+                    pyrogram.InlineKeyboardButton(  # Opens a web URL
                         "ℹ️ Info",
                         url="https://t.me/keralasbots"
                     )
@@ -41,54 +41,32 @@ bot.send_message(
         )
     )
 
-@Client.on_callback_query(dynamic_data(b"start")
-def start_back(bot, update):
-bot.send_message(
-        chat_id=update.chat.id,
-        text=Translation.START,
-        parse_mode="html",
-        disable_web_page_preview=True,
-        reply_to_message_id=update.message_id,
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [  # First row
-                    InlineKeyboardButton(  # Generates a callback query when pressed
-                        "📚 Commands",
-                        callback_data=b"commands"  # Note how callback_data must be bytes
-                    ),
-                    InlineKeyboardButton(  # Opens a web URL
-                        "ℹ️ Info",
-                        url="https://t.me/keralasbots"
-                    )
-                ]
-            ]
-        )
-    )
 
-@Client.on_callback_query(dynamic_data(b"commands"))
-def commands(bot, update):
-bot.send_message(
+@pyrogram.Client.on_callback_query(dynamic_data(b"commands"))
+async def commands(bot, update):
+home_string = "{}".format("start")
+      await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.COMMAND,
         parse_mode="html",
         disable_web_page_preview=True,
         reply_to_message_id=update.message_id,
-        reply_markup=InlineKeyboardMarkup(
+        reply_markup=pyrogram.InlineKeyboardMarkup(
             [
                 [  # First row
-                    InlineKeyboardButton(  # Generates a callback query when pressed
+                    pyrogram.InlineKeyboardButton(  # Generates a callback query when pressed
                         "🕵️ Private Commands",
                         url="https://t.me/keralasbots"  # Note how callback_data must be bytes
                     ),
-                    InlineKeyboardButton(  # Opens a web URL
+                    pyrogram.InlineKeyboardButton(  # Opens a web URL
                         "👷 Admin Commands",
                         url="https://docs.pyrogram.org"
                     ),
                 ],
                 [  # Second row
-                    InlineKeyboardButton(  # Opens the inline interface
+                    pyrogram.InlineKeyboardButton(  # Opens the inline interface
                         "🔙 Back",
-                        callback_data=b"start"
+                        callback_data=home_string.encode("UTF-8")
                     )
                 ]
             ]
