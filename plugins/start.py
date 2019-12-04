@@ -45,11 +45,36 @@ async def start(bot, update):
         reply_markup=reply
     )
 
+@pyrogram.Client.on_callback_query()
+async def start(bot, update):
+    # logger.info(update)
+ replyk = InlineKeyboardMarkup(
+            [
+                [  # First row
+                    InlineKeyboardButton(  # Generates a callback query when pressed
+                        "📚 Commands",
+                        callback_data=b"commands"  # Note how callback_data must be bytes
+                    ),
+                    InlineKeyboardButton(  # Opens a web URL
+                        "ℹ️ Info",
+                        url="https://t.me/keralasbots"
+                    )
+                ]
+            ]
+        )
+
+        await bot.edit_message_text(
+        chat_id=update.chat.id,
+        text=Translation.START_TEXT,
+        reply_to_message_id=update.message_id,
+        reply_markup=replyk
+    )
+
 
 @pyrogram.Client.on_callback_query(dynamic_data(b"commands"))
 async def commands(bot, update):
 home_string = "{}".format("start")
-      await bot.send_message(
+      await bot.edit_message_text(
         chat_id=update.chat.id,
         text=Translation.COMMAND,
         parse_mode="html",
