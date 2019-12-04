@@ -23,12 +23,7 @@ from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
 @pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
 async def start(bot, update):
     # logger.info(update)
-    TRChatBase(update.from_user.id, update.text, "/start")
-    await bot.send_message(
-        chat_id=update.chat.id,
-        text=Translation.START_TEXT,
-        reply_to_message_id=update.message_id
-        reply_markup=InlineKeyboardMarkup(
+ reply = InlineKeyboardMarkup(
             [
                 [  # First row
                     InlineKeyboardButton(  # Generates a callback query when pressed
@@ -42,6 +37,12 @@ async def start(bot, update):
                 ]
             ]
         )
+    TRChatBase(update.from_user.id, update.text, "/start")
+    await bot.send_message(
+        chat_id=update.chat.id,
+        text=Translation.START_TEXT,
+        reply_to_message_id=update.message_id,
+        reply_markup=reply
     )
 
 
