@@ -46,7 +46,7 @@ async def start(bot, update):
     )
 
 @pyrogram.Client.on_callback_query()
-async def start(bot, update):
+async def startback(bot, update):
     # logger.info(update)
  replyk = InlineKeyboardMarkup(
             [
@@ -73,7 +73,7 @@ async def start(bot, update):
 
 @pyrogram.Client.on_callback_query(dynamic_data(b"commands"))
 async def commands(bot, update):
-home_string = "{}".format("start")
+home_string = "{}".format("startback")
       await bot.edit_message_text(
         chat_id=update.chat.id,
         text=Translation.COMMAND,
