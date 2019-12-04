@@ -1,4 +1,3 @@
 class Translation(object):
- START = "Hi I am JOkER. Tap on the below buttons to discover about me."
- COMMAND = "Test buttons"
-  
+    START_TEXT = """Hi my name is Joker . To discover about me click on the buttons"""
+    COMMAND = "Test buttons."
