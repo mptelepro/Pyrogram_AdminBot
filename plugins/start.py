@@ -18,6 +18,8 @@ import pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from database import TRChatBase
 
+from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
+
 @pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
 async def start(bot, update):
     # logger.info(update)
@@ -26,14 +28,14 @@ async def start(bot, update):
         chat_id=update.chat.id,
         text=Translation.START_TEXT,
         reply_to_message_id=update.message_id
-        reply_markup=pyrogram.InlineKeyboardMarkup(
+        reply_markup=InlineKeyboardMarkup(
             [
                 [  # First row
-                    pyrogram.InlineKeyboardButton(  # Generates a callback query when pressed
+                    InlineKeyboardButton(  # Generates a callback query when pressed
                         "📚 Commands",
                         callback_data=b"commands"  # Note how callback_data must be bytes
                     ),
-                    pyrogram.InlineKeyboardButton(  # Opens a web URL
+                    InlineKeyboardButton(  # Opens a web URL
                         "ℹ️ Info",
                         url="https://t.me/keralasbots"
                     )
@@ -52,20 +54,20 @@ home_string = "{}".format("start")
         parse_mode="html",
         disable_web_page_preview=True,
         reply_to_message_id=update.message_id,
-        reply_markup=pyrogram.InlineKeyboardMarkup(
+        reply_markup=InlineKeyboardMarkup(
             [
                 [  # First row
-                    pyrogram.InlineKeyboardButton(  # Generates a callback query when pressed
+                    InlineKeyboardButton(  # Generates a callback query when pressed
                         "🕵️ Private Commands",
                         url="https://t.me/keralasbots"  # Note how callback_data must be bytes
                     ),
-                    pyrogram.InlineKeyboardButton(  # Opens a web URL
+                    InlineKeyboardButton(  # Opens a web URL
                         "👷 Admin Commands",
                         url="https://docs.pyrogram.org"
                     ),
                 ],
                 [  # Second row
-                    pyrogram.InlineKeyboardButton(  # Opens the inline interface
+                    InlineKeyboardButton(  # Opens the inline interface
                         "🔙 Back",
                         callback_data=home_string.encode("UTF-8")
                     )
