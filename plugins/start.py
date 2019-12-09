@@ -18,7 +18,7 @@ from pyrogram import Client,Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, 
 from database import TRChatBase
 import asyncio
 
-@pyrogram.Client.on_message(Filters.command(["start"]))
+@pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
 async def start(bot, update):
 await bot.send_message(
         chat_id=update.chat.id,
