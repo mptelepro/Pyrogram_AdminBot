@@ -13,13 +13,14 @@ import sqlite3
 
 from config import Config
 from translation import Translation
-
+import pyrogram
 from pyrogram import Client,Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
+import asyncio
 
-@Client.on_message(Filters.command(["start"]))
-def start(bot, update):
-bot.send_message(
+@pyrogram.Client.on_message(Filters.command(["start"]))
+async def start(bot, update):
+await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.START,
         parse_mode="html",
@@ -41,9 +42,9 @@ bot.send_message(
         )
     )
 
-@Client.on_callback_query(dynamic_data(b"start")
-def start_back(bot, update):
-bot.send_message(
+@pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("start"))
+async def start_back(bot, update):
+await bot.edit_message_text(
         chat_id=update.chat.id,
         text=Translation.START,
         parse_mode="html",
@@ -65,9 +66,9 @@ bot.send_message(
         )
     )
 
-@Client.on_callback_query(dynamic_data(b"commands"))
-def commands(bot, update):
-bot.send_message(
+@pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("commands"))
+async def commands(bot, update):
+await bot.edit_message_text(
         chat_id=update.chat.id,
         text=Translation.COMMAND,
         parse_mode="html",
