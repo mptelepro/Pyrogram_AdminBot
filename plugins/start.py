@@ -28,5 +28,5 @@ async def start_back(bot, update):
 
 @pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("commands"))
 async def commands(bot, update):
-    await bot.edit_message_text(chat_id=update.chat.id, text=Translation.COMMAND, parse_mode="html", disable_web_page_preview=True, message_id=update.message.message_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Private Commands", url="https://t.me/keralasbots"), InlineKeyboardButton("Admin Commands", url="https://docs.pyrogram.org"),], [InlineKeyboardButton("Back", callback_data="start_back")]]))
+    await bot.edit_message_text(chat_id=update.message.chat.id, text=Translation.COMMAND, parse_mode="html", disable_web_page_preview=True, message_id=update.message.message_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Private Commands", url="https://t.me/keralasbots"), InlineKeyboardButton("Admin Commands", url="https://docs.pyrogram.org"),], [InlineKeyboardButton("Back", callback_data="start_back")]]))
 
