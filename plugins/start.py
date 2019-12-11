@@ -16,7 +16,6 @@ from translation import Translation
 import pyrogram
 from pyrogram import Client,Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
-import asyncio
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["start"]))
 async def start(bot, update):
@@ -24,10 +23,10 @@ async def start(bot, update):
 
 @pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("start_back"))
 async def start_back(bot, update):
-    await bot.edit_message_text(chat_id=update.chat.id, text=Translation.START, parse_mode="html", disable_web_page_preview=True, reply_to_message_id=update.message_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Commands", callback_data="commands"), InlineKeyboardButton("Info", url="https://t.me/keralasbots")]]))
+    await bot.edit_message_text(chat_id=update.message.chat.id, text=Translation.START, parse_mode="html", disable_web_page_preview=True, message_id=update.message.message_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Commands", callback_data="commands"), InlineKeyboardButton("Info", url="https://t.me/keralasbots")]]))
 
 
 @pyrogram.Client.on_callback_query(pyrogram.Filters.callback_data("commands"))
 async def commands(bot, update):
-    await bot.edit_message_text(chat_id=update.chat.id, text=Translation.COMMAND, parse_mode="html", disable_web_page_preview=True, reply_to_message_id=update.message_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Private Commands", url="https://t.me/keralasbots"), InlineKeyboardButton("Admin Commands", url="https://docs.pyrogram.org"),], [InlineKeyboardButton("Back", callback_data="start_back")]]))
+    await bot.edit_message_text(chat_id=update.chat.id, text=Translation.COMMAND, parse_mode="html", disable_web_page_preview=True, message_id=update.message.message_id, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Private Commands", url="https://t.me/keralasbots"), InlineKeyboardButton("Admin Commands", url="https://docs.pyrogram.org"),], [InlineKeyboardButton("Back", callback_data="start_back")]]))
 
