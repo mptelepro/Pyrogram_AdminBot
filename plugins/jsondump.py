@@ -12,5 +12,5 @@ async def jsondump(bot, update):
         fname = f"dump-{update.chat.id}.json"
         with open(fname, "w") as f:
             f.write(str(update))
-        await bot.send_document(fname)
+        await bot.send_document(chat_id=update.chat.id, document=fname)
         os.remove(fname)
