@@ -1,0 +1,16 @@
+import html
+import os
+
+import pyrogram
+
+
+@pyrogram.Client.on_message(pyrogram.Filters.command(["jsondump"]))
+async def jsondump(bot, update):
+    if len(str(update)) < 3000 and "-f" not in update.command:
+        await bot.send_message(f"<code>{html.escape(str(update))}</code>", parse_mode="HTML")
+    else:
+        fname = f"dump-{update.chat.id}.json"
+        with open(fname, "w") as f:
+            f.write(str(update))
+        await bot.send_document(fname)
+        os.remove(fname)
