@@ -8,7 +8,8 @@ async def git(bot, update):
     text = update.text[5:]
     async with aiohttp.ClientSession() as session:
         req = await session.get('https://api.github.com/users/' + text)
-        res = await req.json()
+        rep = await req.json()
+        res = json.loads(rep)
     replyttext = """<B>Name :</B> <code>res["name"]</code>
 <B>Login :</B> <code>res["login"]</code>
 <B>Location :</B> <code>res["location"]</code>
