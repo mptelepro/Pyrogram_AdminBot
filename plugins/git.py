@@ -9,11 +9,11 @@ async def git(bot, update):
     async with aiohttp.ClientSession() as session:
         req = await session.get('https://api.github.com/users/' + text)
         res = await req.json()
-    replyttext = """<B>Name :</B> <code>{res["name"]}</code>
-<B>Login :</B> <code>{res["login"]}
-<B>Location :</B> <code>{res["location"]}
-<B>Type :</B> <code>{res["type"]}
-<B>Bio : </B> <code>{res["bio"]}
+    replyttext = """<B>Name :</B> <code>res["name"]</code>
+<B>Login :</B> <code>res["login"]</code>
+<B>Location :</B> <code>res["location"]</code>
+<B>Type :</B> <code>res["type"]</code> 
+<B>Bio : </B> <code>res["bio"]</code>
     """
     if not res.get('login'):
         await bot.send_message(
