@@ -8,6 +8,13 @@ async def setchat_title(bot, update):
         chat_id=update.chat.id,
         title=title
     )
+    except:
+        pass
+    await bot.send_message(
+        chat_id=update.chat.id, 
+        text="Successfully changed title", 
+        reply_to_message_id=update.message_id
+    )
 
 
 
