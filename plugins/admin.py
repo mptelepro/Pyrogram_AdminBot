@@ -22,5 +22,5 @@ async def unpin_message(bot, update):
 async def ban(bot, update):
     user_id = update.text[5:]
     if update.reply_to_message is not None:
-        user_id = update.reply_to_message.user_id
+        user_id = update.reply_to_message.chat.id
     await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id)
