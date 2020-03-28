@@ -21,8 +21,8 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 async def run(app):
     await app.start()
-    await app.send_message(Config.log_chat, "**Bot started**\n\n"
-                                        f"**Version:** 1.0 `[Beta]`")
+    await app.send_message(Config.log_chat, "**Bot Restarted**\n\n"
+                                        f"**Version Loaded:** 1.0 `[Beta]`\n\n🗣️ @KeralasBots")
     await app.idle()
 
 plugins = dict(
