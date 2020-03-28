@@ -65,6 +65,32 @@ async def ban(bot, update):
     else:
         await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
 
+@pyrogram.Client.on_message(pyrogram.Filters.command(["tban"]) & pyrogram.Filters.group)
+async def tban(bot, update):
+    user = update.from_user.id
+    u = await bot.get_chat_member(update.chat.id, user)
+    if u.status == "administrator" or u.status == "creator":
+        if update.reply_to_message is None:
+            command, user, time = update.text.split(" ", 3)
+            user_id = int(user)
+            utime = int(time)
+            try:
+                b = await bot.get_chat_member(update.chat.id, user_id)
+            except RPCError:
+                await bot.send_message(chat_id=update.chat.id, text="An unknown error while banning")
+                return
+            ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>!".format(update.from_user.id, update.from_user.first_name, b.user.id, b.user.first_name) 
+        else:
+            user_id = update.reply_to_message.from_user.id
+            command, time = update.text.split(" ", 2)
+            utime = int(time)
+            ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>! for {}".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name) 
+        await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id)
+        await bot.send_message(chat_id=update.chat.id, text=ban_text)
+    else:
+        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
+
+
 @pyrogram.Client.on_message(pyrogram.Filters.command(["unban"]) & pyrogram.Filters.group)
 async def unban(bot, update):
     user = update.from_user.id
