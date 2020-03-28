@@ -17,16 +17,19 @@ async def setchat_title(bot, update):
             title=title
         )
     else:
-        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me", reply_to_message_id=update.message_id)
+        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
         
 @pyrogram.Client.on_message(pyrogram.Filters.command(["pin"]) & pyrogram.Filters.group)
 async def pin_message(bot, update):
-    user = update.from_user.id
-    b = await bot.get_chat_member(update.chat.id, user)
-    if b.status == "administrator" or b.status == "creator":
-        await bot.pin_chat_message(chat_id=update.chat.id, message_id=update.reply_to_message.message_id)
+    if update.reply_to_message is not None:
+        user = update.from_user.id
+        b = await bot.get_chat_member(update.chat.id, user)
+        if b.status == "administrator" or b.status == "creator":
+            await bot.pin_chat_message(chat_id=update.chat.id, message_id=update.reply_to_message.message_id)
+        else:
+            await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
     else:
-        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me", reply_to_message_id=update.message_id)
+        await bot.send_message(chat_id=update.chat.id, text=" Reply to a message to be pinned", reply_to_message_id=update.message_id)
 
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["unpin"]) & pyrogram.Filters.group)
@@ -36,7 +39,7 @@ async def unpin_message(bot, update):
     if b.status == "administrator" or b.status == "creator":
         await bot.unpin_chat_message(chat_id=update.chat.id)
     else:
-        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me", reply_to_message_id=update.message_id)
+        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
 
 
 
@@ -60,5 +63,5 @@ async def ban(bot, update):
         await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id)
         await bot.send_message(chat_id=update.chat.id, text=ban_text)
     else:
-        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me", reply_to_message_id=update.message_id)
+        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
 
