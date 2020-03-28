@@ -28,5 +28,5 @@ async def ban(bot, update):
         command, user = update.text.split(" ", 2)
         user_id = int(user)
     else:
-        user_id = update.reply_to_message.chat.id
+        user_id = update.reply_to_message.from_user.id
     await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id)
