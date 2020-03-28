@@ -21,6 +21,7 @@ async def setchat_title(bot, update):
         
 @pyrogram.Client.on_message(pyrogram.Filters.command(["pin"]) & pyrogram.Filters.group)
 async def pin_message(bot, update):
+    user = update.from_user.id
     b = await bot.get_chat_member(update.chat.id, user)
     if b.status == "administrator" or b.status == "creator":
         await bot.pin_chat_message(chat_id=update.chat.id, message_id=update.reply_to_message.message_id)
@@ -30,6 +31,7 @@ async def pin_message(bot, update):
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["unpin"]) & pyrogram.Filters.group)
 async def unpin_message(bot, update):
+    user = update.from_user.id
     b = await bot.get_chat_member(update.chat.id, user)
     if b.status == "administrator" or b.status == "creator":
         await bot.unpin_chat_message(chat_id=update.chat.id)
@@ -40,6 +42,7 @@ async def unpin_message(bot, update):
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["ban"]) & pyrogram.Filters.group)
 async def ban(bot, update):
+    user = update.from_user.id
     u = await bot.get_chat_member(update.chat.id, user)
     if u.status == "administrator" or u.status == "creator":
         if update.reply_to_message is None:
