@@ -14,5 +14,5 @@ class Config(object):
     # the download location, where the HTTP Server runs
     DOWNLOAD_LOCATION = "./DOWNLOADS"
     log_chat = -1001296501406
-    botname = "Edu_jokerbot"
+    bot_name = "Edu_jokerbot"
     netnum = "12"
