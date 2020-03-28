@@ -25,6 +25,10 @@ async def run(app):
                                         f"**Version:** 1.0 `[Beta]`")
     await app.idle()
 
+plugins = dict(
+    root="plugins"
+)
+
 
 app = pyrogram.Client(
     "JOkER",
@@ -39,9 +43,7 @@ if __name__ == "__main__" :
     # create download directory, if not exist
     if not os.path.isdir(Config.DOWNLOAD_LOCATION):
         os.makedirs(Config.DOWNLOAD_LOCATION)
-    plugins = dict(
-        root="plugins"
-    )
+    
     loop = asyncio.get_event_loop()
     loop.run_until_complete(run(app))
     
