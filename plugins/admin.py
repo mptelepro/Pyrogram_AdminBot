@@ -65,3 +65,29 @@ async def ban(bot, update):
     else:
         await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
 
+@pyrogram.Client.on_message(pyrogram.Filters.command(["unban"]) & pyrogram.Filters.group)
+async def unban(bot, update):
+    user = update.from_user.id
+    u = await bot.get_chat_member(update.chat.id, user)
+    if u.status == "administrator" or u.status == "creator":
+        if update.reply_to_message is None:
+            command, user = update.text.split(" ", 2)
+            if user.isdigit() == True:
+                user_id = int(user)
+            else:
+                user_id = str(user)
+            try:
+                b = await bot.get_users(user_id)
+            except RPCError:
+                await bot.send_message(chat_id=update.chat.id, text="Invalid username or user id")
+                return
+            unban_text = "Ok I will give a second chance for <a href='tg://user?id={}'>{}</a> !".format(b.id, b.first_name) 
+        else:
+            user_id = update.reply_to_message.from_user.id
+            unban_text = "OK I will give a second chance for <a href='tg://user?id={}'>{}</a>!".format(update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name) 
+        try:
+            await bot.unban_chat_member(chat_id=update.chat.id, user_id=user_id)
+        except RPCError:
+            await bot.send_message(chat_id=update.chat.id, text="Invalid username or user id")
+            return
+        await bot.send_message(chat_id=update.chat.id, text=unban_text)
