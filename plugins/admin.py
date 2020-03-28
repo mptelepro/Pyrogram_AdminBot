@@ -38,4 +38,4 @@ async def ban(bot, update):
         user_id = update.reply_to_message.from_user.id
         ban_text = "Another bit of dust\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name) 
     await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id)
-    await bot.send_message(chat_id=update.chat.id, ban_text)
+    await bot.send_message(chat_id=update.chat.id, text=ban_text)
