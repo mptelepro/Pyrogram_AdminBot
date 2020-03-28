@@ -1,6 +1,6 @@
 import pyrogram
 from config import Config
-from pyrogram.errors.RPCError
+from pyrogram.errors import RPCError
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["setitle", "setitle@edu_jokerbot", "setitle@Edu_jokerbot"]) & pyrogram.Filters.group)
 async def setchat_title(bot, update):
