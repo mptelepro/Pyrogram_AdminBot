@@ -2,6 +2,7 @@ import pyrogram
 import time
 from config import Config
 from pyrogram.errors import RPCError
+from pyrogram import ChatPermissions
 
 from util import *
 
@@ -150,7 +151,7 @@ async def mute(bot, update):
         else:
             user_id = update.reply_to_message.from_user.id
             mute_text = "<a href='tg://user?id={}'>{}</a> Muted <a href='tg://user?id={}'>{}</a>!".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name) 
-        await bot.restrict_chat_member(chat_id=update.chat.id, user_id=user_id)
+        await bot.restrict_chat_member(chat_id=update.chat.id, user_id=user_id, permissions=ChatPermissions(can_invite_users=True))
         await bot.send_message(chat_id=update.chat.id, text=mute_text)
     else:
         await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
