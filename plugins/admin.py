@@ -88,7 +88,7 @@ async def tban(bot, update):
             command, timev = update.text.split(" ", 2)
             utime = await sec(timev)
             ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>! for {}".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name, timev) 
-        await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id, until_date=int(utime))
+        await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id, until_date=int(time.time()) + int(utime))
         await bot.send_message(chat_id=update.chat.id, text=ban_text)
     else:
         await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
