@@ -1,6 +1,9 @@
 import pyrogram
+import time
 from config import Config
 from pyrogram.errors import RPCError
+
+from util import *
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["setitle", "setitle@edu_jokerbot", "setitle@Edu_jokerbot"]) & pyrogram.Filters.group)
 async def setchat_title(bot, update):
@@ -71,21 +74,21 @@ async def tban(bot, update):
     u = await bot.get_chat_member(update.chat.id, user)
     if u.status == "administrator" or u.status == "creator":
         if update.reply_to_message is None:
-            command, user, time = update.text.split(" ", 3)
+            command, user, timev = update.text.split(" ", 3)
             user_id = int(user)
-            utime = int(time)
+            utime = await sec(timev)
             try:
                 b = await bot.get_chat_member(update.chat.id, user_id)
             except RPCError:
                 await bot.send_message(chat_id=update.chat.id, text="An unknown error while banning")
                 return
-            ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>!".format(update.from_user.id, update.from_user.first_name, b.user.id, b.user.first_name) 
+            ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>! for {}".format(update.from_user.id, update.from_user.first_name, b.user.id, b.user.first_name, timev) 
         else:
             user_id = update.reply_to_message.from_user.id
-            command, time = update.text.split(" ", 2)
-            utime = int(time)
-            ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>! for {}".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name) 
-        await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id)
+            command, timev = update.text.split(" ", 2)
+            utime = await sec(timev)
+            ban_text = "Another bit of dust!\n\n<a href='tg://user?id={}'>{}</a> Banned <a href='tg://user?id={}'>{}</a>! for {}".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name, timev) 
+        await bot.kick_chat_member(chat_id=update.chat.id, user_id=user_id, until_date=int(utime))
         await bot.send_message(chat_id=update.chat.id, text=ban_text)
     else:
         await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
