@@ -128,3 +128,30 @@ async def unban(bot, update):
             await bot.send_message(chat_id=update.chat.id, text="Invalid username or user id")
             return
         await bot.send_message(chat_id=update.chat.id, text=unban_text)
+
+@pyrogram.Client.on_message(pyrogram.Filters.command(["mute"]) & pyrogram.Filters.group)
+async def mute(bot, update):
+    user = update.from_user.id
+    u = await bot.get_chat_member(update.chat.id, user)
+    if u.status == "administrator" or u.status == "creator":
+        if update.reply_to_message is None:
+            command, user = update.text.split(" ", 2)
+            #user_id = int(user)
+            if user.isdigit() == True:
+                user_id = int(user)
+            else:
+                user_id = str(user)
+            try:
+                b = await bot.get_chat_member(update.chat.id, user_id)
+            except RPCError:
+                await bot.send_message(chat_id=update.chat.id, text="An unknown error while banning")
+                return
+            mute_text = "<a href='tg://user?id={}'>{}</a> Muted <a href='tg://user?id={}'>{}</a>!".format(update.from_user.id, update.from_user.first_name, b.user.id, b.user.first_name) 
+        else:
+            user_id = update.reply_to_message.from_user.id
+            mute_text = "<a href='tg://user?id={}'>{}</a> Muted <a href='tg://user?id={}'>{}</a>!".format(update.from_user.id, update.from_user.first_name, update.reply_to_message.from_user.id, update.reply_to_message.from_user.first_name) 
+        await bot.restrict_chat_member(chat_id=update.chat.id, user_id=user_id)
+        await bot.send_message(chat_id=update.chat.id, text=mute_text)
+    else:
+        await bot.send_message(chat_id=update.chat.id, text="Who are you Non-Admin to command me?", reply_to_message_id=update.message_id)
+
