@@ -53,7 +53,11 @@ async def ban(bot, update):
     if u.status == "administrator" or u.status == "creator":
         if update.reply_to_message is None:
             command, user = update.text.split(" ", 2)
-            user_id = int(user)
+            #user_id = int(user)
+            if user.isdigit() == True:
+                user_id = int(user)
+            else:
+                user_id = str(user)
             try:
                 b = await bot.get_chat_member(update.chat.id, user_id)
             except RPCError:
@@ -75,7 +79,11 @@ async def tban(bot, update):
     if u.status == "administrator" or u.status == "creator":
         if update.reply_to_message is None:
             command, user, timev = update.text.split(" ", 3)
-            user_id = int(user)
+            #user_id = int(user)
+            if user.isdigit() == True:
+                user_id = int(user)
+            else:
+                user_id = str(user)
             utime = await sec(timev)
             try:
                 b = await bot.get_chat_member(update.chat.id, user_id)
