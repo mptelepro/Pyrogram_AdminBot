@@ -28,6 +28,6 @@ def jinja(chat_id, jinja):
         SESSION.add(filt)
         SESSION.commit()
 
-def vjinja(chat_id)
+def vjinja(chat_id):
     vjinja = SESSION.query(Jinja.jinja).filter(Jinja.chat_id == chat_id)
     return vjinja
