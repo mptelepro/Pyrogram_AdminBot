@@ -99,7 +99,7 @@ async def _test(_, msg):
         response = await conv.get_response(Filters.text)
         response.reply('You said: ' + response.text)
 
-bot.run()
+client.run()
 
 STARTKEY = [[InlineKeyboardButton("📚 Commands", callback_data="commands"), InlineKeyboardButton("ℹ️ Info", url="https://t.me/keralasbots")]]
 STARTKEY += [[InlineKeyboardButton("★ Jinja", callback_data="jinja")]]
