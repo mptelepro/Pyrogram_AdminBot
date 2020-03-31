@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import Column, Integer, UnicodeText, String, ForeignKey, UniqueConstraint, func
 
-from sql.init import BASE, SESSION
+from sql.base import BASE, SESSION
 
 class Jinja(BASE):
     __tablename__ = "jinja"
