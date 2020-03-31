@@ -31,7 +31,7 @@ class Conversation:
         self.client = client
         self.handlers = []
         self.msgs = []
-        self.message_handler = MessageHandler(self.handle_message,Filters.chat(self.peer))
+        self.message_handler = MessageHandler(self.handle_message, Filters.chat(self.peer))
         self.last_sent_id = 0
     def handle_message(self, _, message):
         if not self.check(message):
@@ -39,22 +39,22 @@ class Conversation:
         message.stop_propagation()
     def add_awaiter(self, filters):
         fut = AwaitableFuture()
-        self.handlers.append((filters,fut))
+        self.handlers.append((filters, fut))
         return fut
     def check(self,message):
-        for filters,fut in self.handlers:
+        for filters, fut in self.handlers:
             if fut.cancelled():
-                self.handlers.remove((filters,fut))
+                self.handlers.remove((filters, fut))
             elif filters(message):
-                self.handlers.remove((filters,fut))
+                self.handlers.remove((filters, fut))
                 fut.set_result(message)
                 return True
         return False
-    def send_message(self,*args, **kwargs):
+    def send_message(self, *args, **kwargs):
         msg = self.client.send_message(self.peer, *args, **kwargs)
         self.last_sent_id = msg.message_id
         return msg
-    def get_response(self,filters=Filters.create('empty',lambda *_:True)):
+    def get_response(self,filters=Filters.create('empty', lambda *_: True)):
         for msg in self.msgs:
             if msg.message_id < self.last_sent_id:
                 self.msgs.remove(msg)
@@ -80,7 +80,7 @@ class AwaitableClient(Client):
     
     
 token = Config.TOKEN
-client = AwaitableClient('await_bot',bot_token=token,api_id=Config.APP_ID,api_hash=Config.API_HASH)
+client = AwaitableClient('await_bot', bot_token=token, api_id=Config.APP_ID, api_hash=Config.API_HASH)
 
 @client.on_message(Filters.command('sync'))
 def _test(_, msg):
@@ -137,6 +137,6 @@ async def setjinja(bot, update):
         await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
         response = await conv.get_response(Filters.text)
         jinja(update.from_user.id, response.text)
-        await bot.send_message(chat_id=update.message.chat.id, text="Successfully set jinja", reply_markup=back)
+        response.reply("Successfully set jinja")
 
     
