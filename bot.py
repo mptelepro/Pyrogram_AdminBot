@@ -14,7 +14,7 @@ import asyncio
 # the secret configuration specific things
 
 from config import Config
-from plugins.start
+from plugins.start import *
 
 import pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
