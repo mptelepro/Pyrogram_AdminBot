@@ -54,7 +54,7 @@ class Conversation:
         msg = self.client.send_message(self.peer, *args, **kwargs)
         self.last_sent_id = msg.message_id
         return msg
-    def get_response(self, filters=Filter.text):
+    def get_response(self, filters=Filters.text):
         for msg in self.msgs:
             if msg.message_id < self.last_sent_id:
                 self.msgs.remove(msg)
