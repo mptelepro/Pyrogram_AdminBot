@@ -14,6 +14,7 @@ import asyncio
 # the secret configuration specific things
 
 from config import Config
+from plugins.start
 
 import pyrogram
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
@@ -30,7 +31,7 @@ plugins = dict(
 )
 
 
-app = pyrogram.Client(
+app = AwaitableClient(
     "JOkER",
     bot_token=Config.TOKEN,
     api_id=Config.APP_ID,
