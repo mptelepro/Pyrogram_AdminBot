@@ -133,7 +133,7 @@ async def jinja(bot, update):
 @Client.on_callback_query(Filters.callback_data("setjinja"))
 async def setjinja(bot, update):
     back = InlineKeyboardButton(BACKKEY)
-    with AwaitableClient.conversation(update.message.chat.id) as conv:
+    with AwaitableClient.conversation(_, update.message.chat.id) as conv:
         await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
         response = await conv.get_response(Filters.text)
         jinja(update.from_user.id, response.text)
