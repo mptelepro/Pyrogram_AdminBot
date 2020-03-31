@@ -31,7 +31,7 @@ plugins = dict(
 )
 
 
-app = AwaitableClient(
+app = pyrogram.Client(
     "JOkER",
     bot_token=Config.TOKEN,
     api_id=Config.APP_ID,
