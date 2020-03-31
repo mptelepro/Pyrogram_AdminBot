@@ -51,7 +51,7 @@ async def jinja(bot, update):
 async def setjinja(bot, update):
     back = InlineKeyboardButton(BACKKEY)
     await bot.edit_message_text(chat_id=update.message.chat.id, text="Now send me the jinja", message_id=update.message.message_id, reply_markup=back)
-    s = input("Enter jinja:")
+ 
     jinja(update.from_user.id, update.message. reply_to_message.text)
     await bot.edit_message_text(chat_id=update.message.chat.id, text="Successfully set jinja", message_id=update.message.message_id, reply_markup=back)
 
