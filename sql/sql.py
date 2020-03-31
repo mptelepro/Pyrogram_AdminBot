@@ -19,11 +19,15 @@ Jinja.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
 
-def jinja(user_id, chat_id, jinja):
+def jinja(chat_id, jinja):
     with INSERTION_LOCK:
-        prev_buttons = SESSION.query(Jinja.jinja).filter(Jinja.chat_id == chat_id)
+        prev_buttons = SESSION.query(Jinja.jinja, Jinja.chat_id).filter(Jinja.chat_id == chat_id)
         for btn in prev_buttons:
             SESSION.delete(btn)
-        filt = Jinja(user_id, chat_id, jinja)
+        filt = Jinja(chat_id, jinja)
         SESSION.add(filt)
         SESSION.commit()
+
+def vjinja(chat_id)
+    vjinja = SESSION.query(Jinja.jinja).filter(Jinja.chat_id == chat_id)
+    return vjinja
