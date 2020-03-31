@@ -3,3 +3,6 @@ https://github.com/pyrogram/pyrogram/archive/asyncio.zip
 requests
 tgcrypto
 aiohttp
+sqlalchemy
+psycopg2-binary
+feedparser
