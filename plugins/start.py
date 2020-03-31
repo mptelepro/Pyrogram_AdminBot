@@ -16,6 +16,7 @@ from translation import Translation
 import pyrogram
 from pyrogram import Client, Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from database import TRChatBase
+from sql.sql import *
 
 STARTKEY = [[InlineKeyboardButton("📚 Commands", callback_data="commands"), InlineKeyboardButton("ℹ️ Info", url="https://t.me/keralasbots")]]
 STARTKEY += [[InlineKeyboardButton("★ Jinja", callback_data="jinja")]]
@@ -36,4 +37,22 @@ async def commands(bot, update):
 
 @Client.on_callback_query(Filters.callback_data("jinja"))
 async def jinja(bot, update):
-    aw
+    jin = [[InlineKeyboardButton("★ Set Jinja", callback_data="setjinja")]]
+    jin += BACKKEY
+    jinjamark = InlineKeyboardMarkup(jin)
+    view = vjinja(update.from_user.id)
+    if view == None:
+        jinja = "None"
+    else:
+        jinja = str(view)
+    await bot.edit_message_text(chat_id=update.message.chat.id, text=jinja, message_id=update.message.message_id, reply_markup=jinjamark)
+
+@Client.on_callback_query(Filters.callback_data("setjinja"))
+async def setjinja(bot, update):
+    back = InlineKeyboardButton(BACKKEY)
+    await bot.edit_message_text(chat_id=update.message.chat.id, text="Now send me the jinja", message_id=update.message.message_id, reply_markup=back)
+    s = input("Enter jinja:")
+    jinja(update.from_user.id, update.message. reply_to_message.text)
+    await bot.edit_message_text(chat_id=update.message.chat.id, text="Successfully set jinja", message_id=update.message.message_id, reply_markup=back)
+
+    
