@@ -1,11 +1,11 @@
 import aiohttp
 import pyrogram
-
+import json
 
 
 @pyrogram.Client.on_message(pyrogram.Filters.command(["git"]))
 async def git(bot, update):
-    text = update.text[5:]
+    command, text = update.text.split(" ", 1)
     async with aiohttp.ClientSession() as session:
         req = await session.get('https://api.github.com/users/' + text)
         rep = await req.json()
@@ -24,6 +24,6 @@ async def git(bot, update):
         )
         return
     else:
-        await bot.send_message(chat_id=update.chat.id, text=replyttext, reply_to_message_id=update.message_id) 
+        await bot.send_message(chat_id=update.chat.id, text=replyttext, reply_to_message_id=update.message_id, parse_mode="HTML") 
         return
         
