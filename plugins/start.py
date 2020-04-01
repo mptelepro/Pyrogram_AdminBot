@@ -22,7 +22,7 @@ from concurrent.futures import Future
 import asyncio
 
 class AwaitableFuture(Future):
-    async def __await__(self):
+    def __await__(self):
         return (yield from asyncio.wrap_future(self))
 
 class Conversation:
