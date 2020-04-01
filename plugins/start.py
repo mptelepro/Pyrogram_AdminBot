@@ -22,26 +22,26 @@ from concurrent.futures import Future
 import asyncio
 
 class AwaitableFuture(Future):
-    def __await__(self):
+    async def __await__(self):
         return (yield from asyncio.wrap_future(self))
 
 class Conversation:
-    def __init__(self, client: Client, peer):
+    async def __init__(self, client: Client, peer):
         self.peer = peer
         self.client = client
         self.handlers = []
         self.msgs = []
         self.message_handler = MessageHandler(self.handle_message, Filters.chat(self.peer))
         self.last_sent_id = 0
-    def handle_message(self, _, message):
+    async def handle_message(self, _, message):
         if not self.check(message):
             self.msgs.append(message)
-        message.stop_propagation()
-    def add_awaiter(self, filters):
-        fut = AwaitableFuture()
+        await message.stop_propagation()
+    async def add_awaiter(self, filters):
+        fut = await AwaitableFuture()
         self.handlers.append((filters, fut))
         return fut
-    def check(self,message):
+    async def check(self,message):
         for filters, fut in self.handlers:
             if fut.cancelled():
                 self.handlers.remove((filters, fut))
@@ -50,16 +50,16 @@ class Conversation:
                 fut.set_result(message)
                 return True
         return False
-    def send_message(self, *args, **kwargs):
+    async def send_message(self, *args, **kwargs):
         msg = self.client.send_message(self.peer, *args, **kwargs)
         self.last_sent_id = msg.message_id
         return msg
-    def get_response(self, filters=Filters.text):
+    async def get_response(self, filters=Filters.text):
         for msg in self.msgs:
             if msg.message_id < self.last_sent_id:
                 self.msgs.remove(msg)
             elif filters(msg):
-                fut = AwaitableFuture()
+                fut = await AwaitableFuture()
                 fut.set_result(msg)
                 self.msgs.remove(msg)
                 return fut
@@ -75,7 +75,7 @@ class Conversation:
         self.client.remove_handler(self.message_handler, -1)
 
 class AwaitableClient(Client):
-    def conversation(self, peer):
+    async def conversation(self, peer):
         return Conversation(self, peer)
     
     
