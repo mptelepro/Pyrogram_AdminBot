@@ -136,7 +136,8 @@ async def jinja(bot, update):
 async def setjinja(bot, update):
     back = InlineKeyboardButton(BACKKEY)
     with AwaitableClient.conversation(bot, update.message.chat.id) as conv:
-        await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
+        #await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
+        await conv.send_message("Send me the jinja")
         response = await conv.get_response(Filters.text)
         jinja(update.from_user.id, response.text)
         response.reply("Successfully set jinja")
