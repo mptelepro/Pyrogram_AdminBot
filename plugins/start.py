@@ -89,7 +89,9 @@ def _test(_, msg):
         response = conv.get_response(Filters.text).result()
         response.reply('You said: ' + response.text)
 
-run_async = lambda func: lambda *args: asyncio.run(func(*args))
+loop = asyncio.get_event_loop()
+
+run_async = lambda func: lambda *args: loop.run_until_complete(func(*args))
 
 @Client.on_message(Filters.command('async'))
 @run_async
@@ -133,7 +135,7 @@ async def jinja(bot, update):
 @Client.on_callback_query(Filters.callback_data("setjinja"))
 async def setjinja(bot, update):
     back = InlineKeyboardButton(BACKKEY)
-    with AwaitableClient.conversation(self, update.message.chat.id) as conv:
+    with AwaitableClient.conversation(bot, update.message.chat.id) as conv:
         await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
         response = await conv.get_response(Filters.text)
         jinja(update.from_user.id, response.text)
