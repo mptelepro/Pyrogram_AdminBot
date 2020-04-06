@@ -19,7 +19,7 @@ Jinja.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
 
-def jinja(chat_id, jinja):
+def setjinja(chat_id, jinja):
     with INSERTION_LOCK:
         prev_buttons = SESSION.query(Jinja.jinja, Jinja.chat_id).filter(Jinja.chat_id == chat_id)
         for btn in prev_buttons:
