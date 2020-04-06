@@ -20,88 +20,8 @@ from sql.sql import *
 from pyrogram import MessageHandler
 from concurrent.futures import Future
 import asyncio
+from pyromod import listen 
 
-class AwaitableFuture(Future):
-    def __await__(self):
-        return (yield from asyncio.wrap_future(self))
-
-class Conversation:
-    async def __init__(self, client: Client, peer):
-        self.peer = peer
-        self.client = client
-        self.handlers = []
-        self.msgs = []
-        self.message_handler = MessageHandler(self.handle_message, Filters.chat(self.peer))
-        self.last_sent_id = 0
-    async def handle_message(self, _, message):
-        if not self.check(message):
-            self.msgs.append(message)
-        await message.stop_propagation()
-    async def add_awaiter(self, filters):
-        fut = await AwaitableFuture()
-        self.handlers.append((filters, fut))
-        return fut
-    async def check(self,message):
-        for filters, fut in self.handlers:
-            if fut.cancelled():
-                self.handlers.remove((filters, fut))
-            elif filters(message):
-                self.handlers.remove((filters, fut))
-                fut.set_result(message)
-                return True
-        return False
-    async def send_message(self, *args, **kwargs):
-        msg = self.client.send_message(self.peer, *args, **kwargs)
-        self.last_sent_id = msg.message_id
-        return msg
-    async def get_response(self, filters=Filters.text):
-        for msg in self.msgs:
-            if msg.message_id < self.last_sent_id:
-                self.msgs.remove(msg)
-            elif filters(msg):
-                fut = await AwaitableFuture()
-                fut.set_result(msg)
-                self.msgs.remove(msg)
-                return fut
-        return self.add_awaiter(filters)
-    async def __aenter__(self):
-        return self.__enter__()
-    def __enter__(self):
-        self.client.add_handler(self.message_handler, -1)
-        return self
-    async def __aexit__(self):
-        self.__exit__()
-    def __exit__(self, *args):
-        self.client.remove_handler(self.message_handler, -1)
-
-class AwaitableClient(Client):
-    async def conversation(self, peer):
-        return Conversation(self, peer)
-    
-    
-token = Config.TOKEN
-#client = AwaitableClient('await_bot', bot_token=token, api_id=Config.APP_ID, api_hash=Config.API_HASH)
-
-@Client.on_message(Filters.command('sync'))
-def _test(_, msg):
-    with AwaitableClient.conversation(msg.chat.id) as conv:
-        conv.send_message('I am (sync) waiting for your reply!')
-        response = conv.get_response(Filters.text).result()
-        response.reply('You said: ' + response.text)
-
-loop = asyncio.get_event_loop()
-
-run_async = lambda func: lambda *args: loop.run_until_complete(func(*args))
-
-@Client.on_message(Filters.command('async'))
-@run_async
-async def _test(_, msg):
-    with AwaitableClient.conversation(msg.chat.id) as conv:
-        conv.send_message('I am awaiting your reply!')
-        response = await conv.get_response(Filters.text)
-        response.reply('You said: ' + response.text)
-
-#client.run()
 
 STARTKEY = [[InlineKeyboardButton("📚 Commands", callback_data="commands"), InlineKeyboardButton("ℹ️ Info", url="https://t.me/keralasbots")]]
 STARTKEY += [[InlineKeyboardButton("★ Jinja", callback_data="jinja")]]
@@ -138,8 +58,8 @@ async def setjinja(bot, update):
     back = InlineKeyboardButton(BACKKEY)
     with AwaitableClient.conversation(bot, update.message.chat.id) as conv:
         #await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
-        await conv.send_message("Send me the jinja")
-        response = await conv.get_response(Filters.text)
+        #await conv.send_message("Send me the jinja")
+        response = await client.ask(update.chat.id, "Send me the jinja")
         jinja(update.from_user.id, response.text)
         response.reply("Successfully set jinja")
 
