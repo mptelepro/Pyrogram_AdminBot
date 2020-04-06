@@ -15,7 +15,6 @@ from config import Config
 from translation import Translation
 import pyrogram
 from pyrogram import Client, Filters, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
-from database import TRChatBase
 from sql.sql import *
 from pyrogram import MessageHandler
 from concurrent.futures import Future
@@ -56,11 +55,11 @@ async def jinja(bot, update):
 @run_async
 async def setjinja(bot, update):
     back = InlineKeyboardButton(BACKKEY)
-    with AwaitableClient.conversation(bot, update.message.chat.id) as conv:
+   # with AwaitableClient.conversation(bot, update.message.chat.id) as conv:
         #await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
         #await conv.send_message("Send me the jinja")
-        response = await client.ask(update.chat.id, "Send me the jinja")
-        jinja(update.from_user.id, response.text)
-        response.reply("Successfully set jinja")
+    response = await bot.ask(update.chat.id, "Send me the jinja")
+    jinja(update.from_user.id, response.text)
+    await bot.send_message(update.chat.id, "Successfully set jinja")
 
     
