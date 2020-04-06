@@ -58,8 +58,9 @@ async def setjinja(bot, update):
    # with AwaitableClient.conversation(bot, update.message.chat.id) as conv:
         #await conv.send_message(chat_id=update.message.chat.id, text="Now send me the jinja", reply_markup=back)
         #await conv.send_message("Send me the jinja")
+    await bot.delete_messages(update.message.chat.id, update.message.message_id)
     response = await bot.ask(update.message.chat.id, "Send me the jinja")
     jinja(update.message.from_user.id, response.text)
-    await bot.send_message(update.chat.id, "Successfully set jinja")
+    await bot.send_message(update.message.chat.id, "Successfully set jinja")
 
     
