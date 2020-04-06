@@ -60,7 +60,7 @@ async def setjinja(bot, update):
         #await conv.send_message("Send me the jinja")
     await bot.delete_messages(update.message.chat.id, update.message.message_id)
     response = await bot.ask(update.message.chat.id, "Send me the jinja")
-    jinja(update.message.from_user.id, response.text)
+    a = setjinja(update.message.from_user.id, response.text)
     await bot.send_message(update.message.chat.id, "Successfully set jinja")
 
     
