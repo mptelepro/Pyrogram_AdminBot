@@ -32,19 +32,18 @@ plugins = dict(
 
 
 app = pyrogram.Client(
-    "JOkER",
+    "AdminBot",
     bot_token=Config.TOKEN,
     api_id=Config.APP_ID,
     api_hash=Config.API_HASH,
     plugins=plugins
 )
-app.run()
 
 if __name__ == "__main__" :
     # create download directory, if not exist
     if not os.path.isdir(Config.DOWNLOAD_LOCATION):
         os.makedirs(Config.DOWNLOAD_LOCATION)
     
-   # loop = asyncio.get_event_loop()
-   # loop.run_until_complete(run(app))
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run(app))
     
