@@ -61,6 +61,9 @@ async def setjinja(bot, update):
    # await bot.delete_messages(update.message.chat.id, update.message.message_id)
    # response = await bot.ask(update.message.chat.id, "Send me the jinja")
    # a = setjinja(update.message.from_user.id, response.text)
+    id = uuid4().int
+    s = str(id)
+    uid = s[:10]
     #await bot.send_message(update.message.chat.id, "Successfully set jinja")
-    await bot.answer_callback_query(uuid4().int[:10], "This function is not completed yet", show_alert=True)
+    await bot.answer_callback_query(int(uid), "This function is not completed yet", show_alert=True)
 
