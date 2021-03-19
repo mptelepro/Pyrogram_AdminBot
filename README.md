@@ -36,4 +36,4 @@ Contributions are always welcome.
 
 With <b>[💖 Kerala Developer Team](https://t.me/Keralasbots)</b>
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mptelepro/Youtube-Downloader-Bot/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mptelepro/Pyrogram_AdminBot)
