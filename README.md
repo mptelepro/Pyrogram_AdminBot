@@ -26,6 +26,7 @@ class Config(object):
     DOWNLOAD_LOCATION = "./DOWNLOADS"
     log_chat = -1001296501406
     bot_name = "Edu_jokerbot"
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mptelepro/Youtube-Downloader-Bot/tree/master)
 
 
 ```
