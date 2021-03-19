@@ -26,7 +26,6 @@ class Config(object):
     DOWNLOAD_LOCATION = "./DOWNLOADS"
     log_chat = -1001296501406
     bot_name = "Edu_jokerbot"
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mptelepro/Youtube-Downloader-Bot/tree/master)
 
 
 ```
@@ -36,3 +35,5 @@ class Config(object):
 Contributions are always welcome. 
 
 With <b>[💖 Kerala Developer Team](https://t.me/Keralasbots)</b>
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mptelepro/Youtube-Downloader-Bot/tree/master)
