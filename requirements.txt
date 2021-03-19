@@ -2,7 +2,7 @@ https://github.com/CW4RR10R/pyrogram/archive/asyncio.zip
 requests
 tgcrypto
 aiohttp
-sqlalchemy==1.3.20
+sqlalchemy==1.3.23
 psycopg2-binary
 feedparser
 pyromod
